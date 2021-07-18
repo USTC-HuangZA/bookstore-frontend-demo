@@ -7,20 +7,12 @@ import {withRouter} from "react-router-dom";
 import {BookCarousel} from "../components/BookCarousel";
 import {SearchBar} from "../components/SearchBar";
 import {BookList} from "../components/BookList";
-import {getUserInfo} from "../services/userService";
 
 const { Header, Content, Footer } = Layout;
 
 class HomeView extends React.Component{
 
-    constructor(props) {
-        super(props);
-
-    }
-
     componentDidMount(){
-        let user = getUserInfo();
-        this.setState({user:user});
     }
 
     render(){

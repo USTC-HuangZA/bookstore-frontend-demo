@@ -10,7 +10,7 @@ export class BookCarousel extends React.Component{
         for (let i = 0; i < ctx.keys().length; i++) {
             let img = images[i];
             console.log(img);
-            result.push(<div><img alt={i} src={img}/></div>);
+            result.push(<div key={i}><img alt={i} src={img}/></div>);
         }
         return result;
     };

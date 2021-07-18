@@ -23,13 +23,13 @@ export class UserAvatar extends React.Component {
             </Menu>
         );
 
-        const {user} = this.props;
+        const {username} = this.props;
 
-        const imgUrl = config.imgUrl + "/" + user.username + ".jpg";
+        const imgUrl = config.imgUrl + "/" + username + ".jpg";
 
         return(
             <div id="avatar">
-                <span className="name">Hi, {user.username}</span>
+                <span className="name">Hi, {username}</span>
                 <Dropdown overlay={menu} placement="bottomRight">
                     <Avatar src={imgUrl} style={{cursor:"pointer"}}/>
                 </Dropdown>

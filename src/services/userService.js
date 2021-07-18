@@ -1,33 +1,49 @@
 import config from 'config';
-import {postRequest} from "../utils/ajax";
+import {postRequest, postRequest_v2} from "../utils/ajax";
 import {history} from '../utils/history';
 import {message} from 'antd';
 
 const saveUserInfo = (data)=>{
-    localStorage.setItem('user', data);
+    localStorage.setItem('userToken', data.token)
+    localStorage.setItem('userRoles', JSON.stringify(data.userRoles))
+    localStorage.setItem('userName', data.userName)
 }
 
-export const getUserInfo = (data)=>{
-    return JSON.parse(localStorage.getItem('user', data))
+export const getUserRoles = ()=>{
+    return JSON.parse(localStorage.getItem('userRoles'))
+}
+
+export const getUserName = ()=>{
+    return localStorage.getItem('userName')
+}
+
+export const getToken =()=>{
+    return localStorage.getItem('userToken')
 }
 
 export const removeUserInfo = ()=>{
-    localStorage.removeItem('user');
+    localStorage.removeItem('userToken')
+    localStorage.removeItem('userRoles')
+    localStorage.removeItem('userName')
 }
 
-export const userTypeConvert = (userType)=>{
-    const dict = {0:'User',1:'Admin'}
-    if (userType in dict){
-        return dict[userType]
+export const userRolesConvert = (userRoles)=>{
+    let rolesList = []
+    const dict = {'ROLE_USER':'User','ROLE_ADMIN':'Admin'}
+    for(let role of userRoles){
+        let userType = role['authority']
+        if (userType in dict){
+            rolesList.push(dict[userType])
+        }else message.error("User Type Unknown");
     }
-    else message.error("User Type Unknown");
+    return rolesList
 }
 
 export const login = (data) => {
     const url = `${config.apiUrl}/login`;
     const callback = (data) => {
-        if(data.status >= 0) {
-            saveUserInfo(JSON.stringify(data.data))
+        if(data.code === 20000) {
+            saveUserInfo(data.data)
             history.push("/home");
             message.success(data.msg);
         }
@@ -35,14 +51,14 @@ export const login = (data) => {
             message.error(data.msg);
         }
     };
-    postRequest(url, data, callback);
+    postRequest_v2(url, data, callback);
 };
 
 export const logout = () => {
     const url = `${config.apiUrl}/logout`;
 
     const callback = (data) => {
-        if(data.status >= 0) {
+        if(data.code ===20000) {
             removeUserInfo();
             history.push("/login");
             message.success(data.msg);

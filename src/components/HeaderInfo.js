@@ -4,12 +4,13 @@ import '../css/index.css'
 import logo from '../assets/logo.svg';
 import logoFont from '../assets/logo-name.svg';
 import {UserAvatar} from "./UserAvatar";
+import {getUserName} from "../services/userService";
 
 export class HeaderInfo extends React.Component {
 
     render(){
 
-        const user = JSON.parse(localStorage.getItem("user"));
+        const username = getUserName();
 
 
         return(
@@ -23,7 +24,7 @@ export class HeaderInfo extends React.Component {
                             </a>
                         </Col>
                         <Col xs={0} sm={0} md={19} lg={19} xl={19} xxl={20}>
-                            {user != null ? <UserAvatar user={user}/> : null}
+                            {username != null ? <UserAvatar username={username}/> : null}
                         </Col>
                     </Row>
                 </div>

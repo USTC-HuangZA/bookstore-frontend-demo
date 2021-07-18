@@ -1,7 +1,7 @@
 import React from 'react'
 import { Menu,Layout, Icon} from 'antd'
 import {history} from "../utils/history";
-import {getUserInfo, userTypeConvert} from "../services/userService"
+import {getUserRoles, userRolesConvert} from "../services/userService"
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
@@ -10,13 +10,13 @@ export class SideBar extends React.Component {
 
     state = {
         collapsed: false,
-        userType: 'User'
+        userRoles:[]
     };
 
     componentDidMount() {
-        let userInfo = getUserInfo();
-        console.log(userInfo.userType)
-        this.setState({'userType': userTypeConvert(userInfo.userType)})
+        let userRoles = getUserRoles();
+        console.log(userRoles)
+        this.setState({'userRoles': userRolesConvert(userRoles)})
     }
 
     onCollapse = collapsed => {
@@ -57,7 +57,7 @@ export class SideBar extends React.Component {
                         <span style={{ fontSize: '16px'}}>My Profile</span>
                     </Menu.Item>
                     {
-                        this.state.userType==='Admin'?
+                        this.state.userRoles.indexOf('Admin')>-1?
                         <Menu.Item key="5" onClick={this.adminOnClick}>
                             <Icon type="line-chart" style={{ fontSize: '18px'}}/>
                             <span style={{ fontSize: '16px'}}>Admin</span>

@@ -1,4 +1,5 @@
 import {message} from 'antd';
+import {getToken} from '../services/userService'
 
 let postRequest_v2 = (url, data, callback) => {
     let formData = new FormData();
@@ -9,6 +10,7 @@ let postRequest_v2 = (url, data, callback) => {
     }
 
     let opts = {
+        headers:{'token':getToken()},
         method: "POST",
         body: formData,
         credentials: "include"
@@ -32,7 +34,8 @@ let postRequest = (url, json, callback) => {
         method: "POST",
         body: JSON.stringify(json),
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'token':getToken()
         },
         credentials: "include"
     };
